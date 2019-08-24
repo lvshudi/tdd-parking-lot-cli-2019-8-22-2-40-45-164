@@ -11,12 +11,12 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        this.car = car;
-        return new ParkingTicket();
+        ParkingTicket parkingTicket = parkingLot.parkCar(car);
+        return parkingTicket;
     }
 
     public Car fetch(ParkingTicket ticket) {
-        return car;
+        return parkingLot.fetchCar(ticket);
     }
 
     public String getLastErrorMessage() {
