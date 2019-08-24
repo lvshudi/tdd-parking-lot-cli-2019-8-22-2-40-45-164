@@ -4,19 +4,19 @@ public class ParkingBoy {
 
     private final ParkingLot parkingLot;
     private String lastErrorMessage;
-
+    private Car car;
+    
     public ParkingBoy(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
     }
 
     public ParkingTicket park(Car car) {
-        // TODO: Please implement the method
-        throw new RuntimeException("Not implemented");
+        this.car = car;
+        return new ParkingTicket();
     }
 
     public Car fetch(ParkingTicket ticket) {
-        // TODO: Please implement the method
-        throw new RuntimeException("Not implemented");
+        return car;
     }
 
     public String getLastErrorMessage() {
