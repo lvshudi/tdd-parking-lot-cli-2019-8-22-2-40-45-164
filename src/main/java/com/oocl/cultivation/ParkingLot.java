@@ -1,6 +1,7 @@
 package com.oocl.cultivation;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ParkingLot {
@@ -27,6 +28,12 @@ public class ParkingLot {
     
     public Car fetchCar(ParkingTicket parkingTicket) {
     	Car car = cars.get(parkingTicket);
+    	Iterator<ParkingTicket> iter = cars.keySet().iterator();
+    	while(iter.hasNext()){
+    	       if(iter.next().equals(parkingTicket)){
+    	                iter.remove();
+    	       }
+    	}
     	return car;
     }
 }
