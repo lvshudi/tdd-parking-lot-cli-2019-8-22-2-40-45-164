@@ -4,6 +4,9 @@ import com.oocl.cultivation.Car;
 import com.oocl.cultivation.ParkingBoy;
 import com.oocl.cultivation.ParkingLot;
 import com.oocl.cultivation.ParkingTicket;
+import com.oocl.cultivation.SmartParkingBoy;
+import com.oocl.cultivation.SuperSmartParkingBoy;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -157,20 +160,6 @@ class ParkingBoyFacts {
     }
     
     @Test
-    void should_park_cars_to_max_rest_position() {
-        final int capacity = 10;
-        ParkingLot parkingLot1 = new ParkingLot(capacity);
-        ParkingLot parkingLot2 = new ParkingLot(capacity);
-        ArrayList<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
-        parkingLots.add(parkingLot1);
-        parkingLots.add(parkingLot2);
-        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
-        
-        parkingBoy.park(new Car());
-        assertNotNull(parkingLot2.parkCar(new Car()));
-    }
-
-    @Test
     void should_get_message_if_there_is_not_enough_position() {
         final int capacity = 1;
         ParkingLot parkingLot = new ParkingLot(capacity);
@@ -180,5 +169,37 @@ class ParkingBoyFacts {
         parkingBoy.park(new Car());
 
         assertEquals("The parking lot is full.", parkingBoy.getLastErrorMessage());
+    }
+    
+    @Test
+    void should_park_cars_to_max_rest_position() {
+        final int capacity = 10;
+        ParkingLot parkingLot1 = new ParkingLot(capacity);
+        ParkingLot parkingLot2 = new ParkingLot(capacity);
+        ArrayList<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
+        parkingLots.add(parkingLot1);
+        parkingLots.add(parkingLot2);
+        SmartParkingBoy parkingBoy = new SmartParkingBoy(parkingLots);
+        
+        parkingBoy.park(new Car());
+        parkingBoy.park(new Car());
+        
+    }
+
+   
+    
+    @Test
+    void should_park_cars_to_max_usabality_position() {
+        ParkingLot parkingLot1 = new ParkingLot(100);
+        ParkingLot parkingLot2 = new ParkingLot(10);
+        ArrayList<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
+        parkingLots.add(parkingLot1);
+        parkingLots.add(parkingLot2);
+        SuperSmartParkingBoy parkingBoy = new SuperSmartParkingBoy(parkingLots);
+        
+        parkingBoy.park(new Car());
+        parkingBoy.park(new Car());
+        parkingBoy.park(new Car());
+        assertEquals(9, parkingLot2.getAvailableParkingPosition());
     }
 }
