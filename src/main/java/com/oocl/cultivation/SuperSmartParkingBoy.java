@@ -2,16 +2,18 @@ package com.oocl.cultivation;
 
 import java.util.ArrayList;
 
-public class SuperSmartParkingBoy {
+public class SuperSmartParkingBoy extends ParkingBoy {
 	private final ArrayList<ParkingLot> parkingLotList;
     private String lastErrorMessage;
     private Car car;
     
     public SuperSmartParkingBoy(ArrayList<ParkingLot> parkingLotList) {
+    	super(parkingLotList);
         this.parkingLotList = parkingLotList;
     }
     
     public SuperSmartParkingBoy(ParkingLot parkingLot) {
+    	super(parkingLot);
     	this.parkingLotList = new ArrayList<ParkingLot>();
         this.parkingLotList.add(parkingLot);
     }
