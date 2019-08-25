@@ -1,30 +1,38 @@
 package com.oocl.cultivation;
 
-import java.awt.List;
 import java.util.ArrayList;
 
-public class ParkingBoy {
+public class SmartParkingBoy {
 
-    private final ArrayList<ParkingLot> parkingLotList;
+	private final ArrayList<ParkingLot> parkingLotList;
     private String lastErrorMessage;
     private Car car;
     
-    public ParkingBoy(ArrayList<ParkingLot> parkingLotList) {
+    public SmartParkingBoy(ArrayList<ParkingLot> parkingLotList) {
         this.parkingLotList = parkingLotList;
     }
     
-    public ParkingBoy(ParkingLot parkingLot) {
+    public SmartParkingBoy(ParkingLot parkingLot) {
     	this.parkingLotList = new ArrayList<ParkingLot>();
         this.parkingLotList.add(parkingLot);
     }
 
     public ParkingTicket park(Car car) {
+    	int max = 0;
+    	ParkingLot thisParkingLot = null;
     	for (ParkingLot parkingLot : parkingLotList) {
     		if (parkingLot.getAvailableParkingPosition()<=0) {
         		this.lastErrorMessage = "The parking lot is full.";
         		continue;
     		}
-            ParkingTicket parkingTicket = parkingLot.parkCar(car);
+    		if (parkingLot.getAvailableParkingPosition() > max) {
+				max = parkingLot.getAvailableParkingPosition();
+				thisParkingLot = parkingLot;
+			}
+            
+		}
+    	if (thisParkingLot != null) {
+    		ParkingTicket parkingTicket = thisParkingLot.parkCar(car);
             this.lastErrorMessage = null;
             return parkingTicket;
 		}
@@ -48,5 +56,4 @@ public class ParkingBoy {
     public String getLastErrorMessage() {
         return lastErrorMessage;
     }
-    
 }

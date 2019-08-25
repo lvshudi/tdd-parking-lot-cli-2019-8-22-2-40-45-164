@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 class ParkingBoyFacts {
     @Test
     void should_park_a_car_to_a_parking_lot_and_get_it_back() {
@@ -138,6 +140,34 @@ class ParkingBoyFacts {
         parkingBoy.park(new Car());
 
         assertNull(parkingBoy.park(new Car()));
+    }
+    
+    @Test
+    void should_not_park_cars_to_another_parking_lot_if_first_is_not_enough_position() {
+        final int capacity = 1;
+        ParkingLot parkingLot1 = new ParkingLot(capacity);
+        ParkingLot parkingLot2 = new ParkingLot(capacity);
+        ArrayList<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
+        parkingLots.add(parkingLot1);
+        parkingLots.add(parkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        
+        parkingBoy.park(new Car());
+        assertNotNull(parkingBoy.park(new Car()));
+    }
+    
+    @Test
+    void should_park_cars_to_max_rest_position() {
+        final int capacity = 10;
+        ParkingLot parkingLot1 = new ParkingLot(capacity);
+        ParkingLot parkingLot2 = new ParkingLot(capacity);
+        ArrayList<ParkingLot> parkingLots = new ArrayList<ParkingLot>();
+        parkingLots.add(parkingLot1);
+        parkingLots.add(parkingLot2);
+        ParkingBoy parkingBoy = new ParkingBoy(parkingLots);
+        
+        parkingBoy.park(new Car());
+        assertNotNull(parkingLot2.parkCar(new Car()));
     }
 
     @Test
