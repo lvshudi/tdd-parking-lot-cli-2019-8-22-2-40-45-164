@@ -1,22 +1,34 @@
 package com.oocl.cultivation;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 public class ParkingBoy {
 
-    private final ParkingLot parkingLot;
+    private final ArrayList<ParkingLot> parkingLotList;
     private String lastErrorMessage;
     private Car car;
     
+    public ParkingBoy(ArrayList<ParkingLot> parkingLotList) {
+        this.parkingLotList = parkingLotList;
+    }
+    
     public ParkingBoy(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
+    	this.parkingLotList = new ArrayList<ParkingLot>();
+        this.parkingLotList.add(parkingLot);
     }
 
     public ParkingTicket park(Car car) {
-    	if (parkingLot.getAvailableParkingPosition()>=0) {
-    		this.lastErrorMessage = "The parking lot is full.";
-			return null;
+    	for (ParkingLot parkingLot : parkingLotList) {
+    		if (parkingLot.getAvailableParkingPosition()<=0) {
+        		this.lastErrorMessage = "The parking lot is full.";
+        		break;
+    		}
+            ParkingTicket parkingTicket = parkingLot.parkCar(car);
+            this.lastErrorMessage = null;
+            return parkingTicket;
 		}
-        ParkingTicket parkingTicket = parkingLot.parkCar(car);
-        return parkingTicket;
+    	return null;
     }
 
     public Car fetch(ParkingTicket ticket) {
@@ -24,11 +36,13 @@ public class ParkingBoy {
     		this.lastErrorMessage = "Please provide your parking ticket.";
     		return null;
     	}
-    	Car car = parkingLot.fetchCar(ticket);
+    	for (ParkingLot parkingLot : parkingLotList) {
+        	car = parkingLot.fetchCar(ticket);
+		}
     	if (car == null) {
     		this.lastErrorMessage = "Unrecognized parking ticket.";
     	}
-        return car;
+    	return car;
     }
 
     public String getLastErrorMessage() {
